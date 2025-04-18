@@ -86,24 +86,17 @@ export const LoadingScreen = () => {
      }, [navigation]);
 
      /**
-     * Load information needed to display the interface. These are done sequentially since some calls may rely on previous data.
-     * This is done by controlling when each query is enabled.
-     **/
+      * Load information needed to display the interface. These are done sequentially since some calls may rely on previous data.
+      * This is done by controlling when each query is enabled.
+      */
+
+     /**
+      * First check to see if the catalog is online and check to see if offline mode is active.
+      */
      const { isSuccess: catalogStatusSuccess, status: catalogStatusQueryStatus, data: catalogStatusQuery } = useQuery(['catalog_status', LIBRARY.url], () => getCatalogStatus(LIBRARY.url), {
           enabled: !!LIBRARY.url && !loadingTheme,
           onSuccess: (data) => {
                updateCatalogStatus(data);
-          },
-          onError: () => {
-               setHasError(true);
-          }
-     });
-
-     const { isSuccess: translationQuerySuccess, status: translationQueryStatus, data: translationQuery } = useQuery(['active_language', PATRON.language, LIBRARY.url], () => getTranslatedTermsForUserPreferredLanguage(PATRON.language ?? 'en', LIBRARY.url), {
-          enabled: !!LIBRARY.url && catalogStatusSuccess,
-          onSuccess: (data) => {
-               setProgress(10);
-               updateDictionary(translationsLibrary);
                setLoadingText(getTermFromDictionary(PATRON.language ?? 'en', 'loading_1'));
           },
           onError: () => {
@@ -111,8 +104,21 @@ export const LoadingScreen = () => {
           }
      });
 
+     /**
+       * Preload parameterized translations for use on holds and checkouts pages. This does not halt loading LiDA.
+       */
+     const { isSuccess: translationQuerySuccess, status: translationQueryStatus, data: translationQuery } = useQuery(['active_language', PATRON.language, LIBRARY.url], () => getTranslatedTermsForUserPreferredLanguage(PATRON.language ?? 'en', LIBRARY.url), {
+          enabled: !!LIBRARY.url && catalogStatusSuccess,
+          onSuccess: (data) => {
+               updateDictionary(translationsLibrary);
+          },
+          onError: () => {
+               setHasError(true);
+          }
+     });
+
      const { isSuccess: languagesQuerySuccess, status: languagesQueryStatus, data: languagesQuery } = useQuery(['languages', LIBRARY.url], () => getLibraryLanguages(LIBRARY.url), {
-          enabled: hasError === false && translationQuerySuccess,
+          enabled: hasError === false && catalogStatusSuccess,
           onSuccess: (data) => {
                setProgress(15);
                updateLanguages(data);
@@ -121,14 +127,6 @@ export const LoadingScreen = () => {
                setHasError(true);
           }
      });
-
-     /*const { status: translationsQueryStatus, data: translationsQuery } = useQuery(['translations', LIBRARY.url], () => getTranslatedTermsForAllLanguages(languagesQuery, LIBRARY.url), {
-	 enabled: !!languagesQuery,
-	 onSuccess: (data) => {
-	 updateDictionary(translationsLibrary);
-	 setLoadingText(getTermFromDictionary(language ?? 'en', 'loading_1'));
-	 },
-	 });*/
 
      React.useEffect(() => {
           const responseListener = Notifications.addNotificationResponseReceivedListener((response) => {
