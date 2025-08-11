@@ -243,9 +243,13 @@ const getFormats = (formats) => {
                          {getTermFromDictionary(language, 'format')}:
                     </Text>
                     <ButtonGroup flexDirection="row" flexWrap="wrap">
-                         {_.map(_.keys(formats), function (item, index, array) {
-                              return <Format key={index} format={item} data={formats[item]} isSelected={format} updateFormat={updateFormat} />;
-                         })}
+                         {_.compact(_.map(_.keys(formats), function (item, index, array) {
+                              const formatData = formats[item];
+                              if (!formatData || !formatData.label || formatData.label.trim() === '' || item.trim() === '') {
+                                   return null;
+                              }
+                              return <Format key={index} format={item} data={formatData} isSelected={format} updateFormat={updateFormat} />;
+                         }))}
                     </ButtonGroup>
                </>
           );
