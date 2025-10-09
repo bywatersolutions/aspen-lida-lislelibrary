@@ -252,7 +252,7 @@ export const MyReadingHistory = () => {
                               </ListItem.Content>
                          </>
                     }
-                    isExpanded={expanded}ƒ
+                    isExpanded={expanded}
                     icon={<Icon as={ChevronDownIcon} color={textColor} />}
                     onPress={() => {
                          setExpanded(!expanded);
