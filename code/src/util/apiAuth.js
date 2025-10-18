@@ -324,7 +324,7 @@ export const ENDPOINT = {
 
 export const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-export function getErrorMessage({ statusCode, problem, sendToSentry = false }) {
+export function getErrorMessage({ statusCode = null, problem, sendToSentry = false }) {
      let errorDetails;
      if (problem) {
           switch (problem) {
