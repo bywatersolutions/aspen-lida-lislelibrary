@@ -62,6 +62,12 @@ export const MyLists = () => {
      if(user.lastListGroupViewed) {
           defaultListGroup = user.lastListGroupViewed;
      }
+     
+     React.useEffect(() => {
+          if (defaultListGroup) {
+               updateSelectedListGroup(defaultListGroup);
+          }
+     }, []);
 
      React.useEffect(() => {
           if (isFocused) {
