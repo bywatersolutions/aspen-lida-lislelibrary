@@ -72,7 +72,7 @@ export const EditListGroupParent = ({id, parentId, handleUpdate}) => {
                                         onValueChange={(itemValue) => updateSelectedGroup(itemValue)}>
                                         <SelectTrigger variant="outline" size="md">
                                              {selectedGroup ? (
-                                                  <SelectInput color={textColor} value={selectedGroup.id} placeholder={selectedGroup.title} />
+                                                  <SelectInput color={textColor} value={selectedGroup.title} />
                                              ) : <SelectInput color={textColor} value={parentId} />}
                                            <SelectIcon mr="$3" as={ChevronDownIcon} color={textColor} />
                                         </SelectTrigger>
