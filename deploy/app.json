@@ -1,0 +1,15 @@
+{
+  "name": "Lisle Library",
+  "slug": "lislelibrary",
+  "easId": "6cacd069-cf14-4023-9fc7-d8f68f6ae82c",
+  "reverseDns": "org.aspendiscovery.lislelibrary",
+  "discoveryUrl": "https://lislelibrary.aspendiscovery.org/",
+  "greenhouseUrl": "https://lislelibrary.aspendiscovery.org/",
+  "libraryId": "1",
+  "themeId": "4",
+  "background": "#ffffff",
+  "sentryProject": "aspen-lida-lislelibrary",
+  "sentryDsn": "https://8bf289446eae2cdc69d0362a531f1fba@o994439.ingest.us.sentry.io/4509514834771968",
+  "ascAppId": "6747405211",
+  "logLevel": "0"
+}
